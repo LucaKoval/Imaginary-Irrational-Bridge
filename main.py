@@ -5,7 +5,6 @@ import itertools
 from multiprocessing import Pool
 
 # from numba import njit, prange
-# from typing import Callable, Optional
 
 
 # sqrtList = [2, 3, 5, 7, 11, 13]

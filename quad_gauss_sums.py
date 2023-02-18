@@ -9,13 +9,14 @@ for num in range(3, UPPER, 2):
     	primes.append(num)
 
 for p in primes:
+	legendre_counts = {-1: 0, 1: 0}
+	op_string = ''
 	total_coef = (-1)**((p - 1)/2)
 	root_sum = 0
 	root_sum_string = ''
-	for k in range(p):
+	for k in range(1, p):
 		coef = legendre_symbol(k, p)
-		if coef == 0:
-			continue
+		legendre_counts[coef] += 1
 		op = '+'
 		if coef == -1:
 			op = '-'
@@ -24,7 +25,9 @@ for p in primes:
 		if total_coef == -1:
 			pow_numerator = 4*k - p
 		root_sum_string += f' {op} i^({pow_numerator}/{pow_denominator})'
+		op_string += op
 
 	root_sum_string = root_sum_string[3:]
-	print(f'sqrt({p}) = {root_sum_string}')
-	print()
+	print(f'sqrt({p}) = {root_sum_string}\n')
+	# print(op_string)
+	# print(f'for {p}, legendre_counts: {legendre_counts}')
