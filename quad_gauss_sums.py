@@ -27,3 +27,4 @@ for p in primes:
 
 	root_sum_string = root_sum_string[3:]
 	print(f'sqrt({p}) = {root_sum_string}')
+	print()
