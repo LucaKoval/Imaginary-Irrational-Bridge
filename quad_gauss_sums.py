@@ -1,7 +1,7 @@
 import math
 from sympy import legendre_symbol
 
-UPPER = 20
+UPPER = 100
 
 primes = []
 for num in range(3, UPPER, 2):
@@ -9,11 +9,13 @@ for num in range(3, UPPER, 2):
     	primes.append(num)
 
 for p in primes:
+	legendre_counts = {-1: 0, 0: 0, 1: 0}
 	total_coef = (-1)**((p - 1)/2)
 	root_sum = 0
 	root_sum_string = ''
 	for k in range(p):
 		coef = legendre_symbol(k, p)
+		legendre_counts[coef] += 1
 		if coef == 0:
 			continue
 		op = '+'
@@ -26,4 +28,5 @@ for p in primes:
 		root_sum_string += f' {op} i^({pow_numerator}/{pow_denominator})'
 
 	root_sum_string = root_sum_string[3:]
-	print(f'sqrt({p}) = {root_sum_string}')
+	# print(f'sqrt({p}) = {root_sum_string}')
+	print(f'for {p}, legendre_counts: {legendre_counts}')
