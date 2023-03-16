@@ -1,25 +1,11 @@
-from random import randint
-from math import gcd
-
+import random
 import itertools
-from multiprocessing import Pool
 
-# from numba import njit, prange
+# sqrtList = [2, 3, 5]
+sqrtList = [5]
 
-
-# sqrtList = [2, 3, 5, 7, 11, 13]
-# sqrtList = [5, 7, 11, 13]
-sqrtList = [2]
-max_list_elt = max(sqrtList)
-
-# Five total terms
-total_terms = 2
-# num_tries = 100000
-# for _ in range(total_terms):
-# 	current_term = 0
-# 	for coef in range()
-
-# 	total += current_term
+# Three total terms
+total_terms = 3
 
 
 def to_string(
@@ -37,97 +23,55 @@ def to_string(
 
 # Generate the terms
 terms = set()
-termsToParams = {}
-
-
-def gen_terms():
-    for coefNumerator in range(0, max_list_elt + 1):
-        for coefDenominator in range(1, max_list_elt + 1):
-            for powerNumerator in range(1, max_list_elt + 1):
-                for powerDenominator in range(1, max_list_elt + 1):
-                    if (
-                        gcd(coefNumerator, coefDenominator) == 1
-                        and gcd(powerNumerator, powerDenominator) == 1
-                    ):
-                        termNotFinalized = (coefNumerator / coefDenominator) * pow(
-                            1j, powerNumerator / powerDenominator
+for coefNumerator in range(0, 7):
+    for coefDenominator in range(1, 7):
+        for powerNumerator in range(0, 7):
+            for powerDenominator in range(1, 7):
+                termNotFinalized = (coefNumerator / coefDenominator) * pow(
+                    1j, powerNumerator / powerDenominator
+                )
+                for plusMinus in range(2):
+                    if plusMinus == 0:
+                        terms.add(
+                            (
+                                termNotFinalized,
+                                (
+                                    coefNumerator,
+                                    coefDenominator,
+                                    powerNumerator,
+                                    powerDenominator,
+                                    plusMinus,
+                                ),
+                            )
                         )
-                        terms.add(coefNumerator * 1j)
-                        for plusMinus in range(2):
-                            if plusMinus == 0:
-                                terms.add(termNotFinalized)
-                                termsToParams[termNotFinalized] = (
+                    else:
+                        terms.add(
+                            (
+                                -termNotFinalized,
+                                (
                                     coefNumerator,
                                     coefDenominator,
                                     powerNumerator,
                                     powerDenominator,
                                     plusMinus,
-                                )
-                            else:
-                                terms.add(-termNotFinalized)
-                                termsToParams[-termNotFinalized] = (
-                                    coefNumerator,
-                                    coefDenominator,
-                                    powerNumerator,
-                                    powerDenominator,
-                                    plusMinus,
-                                )
+                                ),
+                            )
+                        )
 
-    return terms, termsToParams
+combos = itertools.combinations_with_replacement(terms, total_terms)
 
+for subset in combos:
+    total = 0
+    for term in subset:
+        total += term[0]
 
-terms, termsToParams = gen_terms()
-print(len(terms))
-
-
-# subsets = []
-# for subset in itertools.combinations_with_replacement(terms, total_terms):
-# 	subsets.append(subset)
-# num_subsets = len(subsets)
-
-
-def comb_with_replacement(n):  # the argument n is the number of items to select
-    res = list(
-        itertools.combinations_with_replacement(terms, n)
-    )  # create a list from the iterator
-    return res
-
-
-def main():
-    p = Pool(4)
-    times = range(0, len(terms) + 1)
-    values = p.map(
-        comb_with_replacement, times
-    )  # pass the range as the sequence of arguments!
-    print(values)
-    p.close()
-    p.join()
-    # print(values)
-
-
-if __name__ == "__main__":
-    main()
-
-
-# @njit(parallel=True)
-def compute_bridge():
-    for derp in prange(num_subsets):
-        subset = subsets[derp]
-        total = 0
-        for term in subset:
-            total += term
-
-        for num in sqrtList:
-            if abs(pow(num, 1 / 2) - total.real) < 1e-10:
-                if num == 7:
-                    print(f"Found near the square root of {num}.")
-                    print()
-            if abs(total.imag) < 1e-10 and abs(pow(num, 1 / 2) - total.real) < 1e-10:
-                print(f"Found for the square root of {num}.")
-                term_string = ""
-                for i, term in enumerate(subset):
-                    term_string += to_string(*termsToParams[term])
-                    if i < len(subset) - 1:
-                        term_string += " + "
-                print(term_string)
-                print()
+    for num in sqrtList:
+        if abs(total.imag) < 1e-10 and abs(pow(num, 1 / 2) - total.real) < 1e-10:
+            print(f"Found for the square root of {num}.")
+            term_string = ""
+            for i, term in enumerate(subset):
+                term_string += to_string(*term[1])
+                if i < len(subset) - 1:
+                    term_string += " + "
+            print(term_string)
+            print()
