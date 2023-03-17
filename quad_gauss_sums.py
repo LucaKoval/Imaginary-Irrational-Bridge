@@ -2,7 +2,7 @@ import math
 from sympy import legendre_symbol
 
 # The number up to which we check for primes
-UPPER = 10
+UPPER = 100
 
 """
 Naively generate a list of primes from 3 to UPPER
