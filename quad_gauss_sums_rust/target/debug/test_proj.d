@@ -1,1 +1,0 @@
-/Users/lucakoval/Documents/GitHub/Imaginary-Irrational-Bridge/quad_gauss_sums_rust/target/debug/test_proj: /Users/lucakoval/Documents/GitHub/Imaginary-Irrational-Bridge/quad_gauss_sums_rust/src/main.rs
