@@ -56,10 +56,10 @@ fn main() {
         let mut legendre_counts: HashMap<i32, i32> = HashMap::new();
 
         // Initialize the output string
-        let mut op_string = String::from("");
+        let mut op_string = "".to_string();
         let mut total_coef: i32 = (-1 as i32).pow(((p - 1) / 2) as u32);
         let mut root_sum: i32 = 0;
-        let mut root_sum_string = String::from("");
+        let mut root_sum_string = "".to_string();
 
         // Loop through all integers k < p
         for k in 1..p {
