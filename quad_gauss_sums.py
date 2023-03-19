@@ -5,7 +5,7 @@ from sympy import legendre_symbol
 UPPER = 100
 
 """
-Naively generate a list of primes from 3 to UPPER
+Naively generate a list of primes from 3 to UPPER.
 2 is not included because the calculating the Legendre symbol
 of some integer k < p and p, where p is prime, requires p
 to be an *odd* prime. The equation representing the square
