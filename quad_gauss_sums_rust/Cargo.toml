@@ -1,9 +1,12 @@
 [package]
-name = "test_proj"
-version = "0.1.0"
+name = "imaginary_irrational_bridge"
+version = "0.1.1"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+num = "0.4.0"
+itertools = "0.10.5"
+ordered-float = "3.6.0"
 num-modular = "0.5.1"
