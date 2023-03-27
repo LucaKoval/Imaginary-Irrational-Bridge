@@ -16,12 +16,12 @@ fn format_string(
 		OrderedFloat<f32>,
 	),
 ) -> String {
-	let mut minus = "-".to_string();
-	let formatted =
+	let minus = "-".to_string();
+	let mut formatted =
 		format!("({coef_numerator}/{coef_denominator})i^({power_numerator}/{power_denominator})");
 
 	if plus_minus == 1.0 {
-		minus.push_str(&formatted);
+		formatted = minus + &formatted;
 	}
 
 	return formatted;
@@ -60,8 +60,9 @@ fn brute_force() {
 					let term_not_finalized_coef: OrderedFloat<f32> =
 						OrderedFloat(coef_numerator as f32 / coef_denominator as f32);
 					let term_not_finalized: Complex<OrderedFloat<f32>> =
-						Complex::new(OrderedFloat(0.0), OrderedFloat(1.0))
-							.powi(power_numerator / power_denominator);
+						Complex::new(OrderedFloat(0.0), OrderedFloat(1.0)).powf(OrderedFloat(
+							power_numerator as f32 / power_denominator as f32,
+						));
 
 					for plus_minus in 0..2 {
 						if plus_minus == 0 {
@@ -120,6 +121,7 @@ fn brute_force() {
 				&& (OrderedFloat((*num as f32).sqrt()) - total_re).abs() < ERROR
 			{
 				println!("Found for the square root of {num}.");
+				// println!("{:#?}, {:#?}", total_im, total_im.abs());
 
 				// Format the string representation of the imaginary representation
 				let mut term_string = "".to_string();
