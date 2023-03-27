@@ -121,7 +121,6 @@ fn brute_force() {
 				&& (OrderedFloat((*num as f32).sqrt()) - total_re).abs() < ERROR
 			{
 				println!("Found for the square root of {num}.");
-				// println!("{:#?}, {:#?}", total_im, total_im.abs());
 
 				// Format the string representation of the imaginary representation
 				let mut term_string = "".to_string();
