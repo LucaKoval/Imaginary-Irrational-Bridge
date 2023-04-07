@@ -6,4 +6,4 @@ It actually started about a year or two ago when I was playing around with [Eule
 
 As of late February 2023, I have also implemented Rust versions of the two aforementioned files. (I constructed the files as a way to learn Rust, so the code is by no means perfect. Apologies for that in advance.)
 
- Thank you so much for reading this! I really appreciate it. I also gotta send my thanks to Euler, the [Kronecker–Weber theorem](https://en.wikipedia.org/wiki/Kronecker%E2%80%93Weber_theorem), and [Professor David E Speyer](https://dept.math.lsa.umich.edu/~speyer/) who provided the truly enlightening answer on Stack Overflow. :)
+ Thank you so much for reading this! I really appreciate it. I also have to send my thanks to Euler, the [Kronecker–Weber theorem](https://en.wikipedia.org/wiki/Kronecker%E2%80%93Weber_theorem), and [Professor David E Speyer](https://dept.math.lsa.umich.edu/~speyer/) who provided the truly enlightening answer on Stack Overflow. :)
