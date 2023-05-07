@@ -33,8 +33,8 @@ fn brute_force() {
 
 	// List of primes for which we wish to find imaginary sum representations
 	let mut sqrt_list: Vec<i32> = Vec::new();
-	sqrt_list.push(2);
-	sqrt_list.push(3);
+	// sqrt_list.push(2);
+	// sqrt_list.push(3);
 	sqrt_list.push(5);
 
 	// Number of terms in the imaginary sum
@@ -192,7 +192,6 @@ fn quad_gauss_sums() {
 		let mut legendre_counts: HashMap<i32, i32> = HashMap::new();
 
 		// Initialize the output string
-		let mut op_string = "".to_string();
 		let mut total_coef: i32 = (-1 as i32).pow(((p - 1) / 2) as u32);
 		let mut root_sum: i32 = 0;
 		let mut root_sum_string = "".to_string();
@@ -223,9 +222,6 @@ fn quad_gauss_sums() {
 
 			// Format the string corresponding to the current term in the sum
 			root_sum_string.push_str(&format!(" {op} i^({pow_numerator}/{pow_denominator})"));
-
-			// Add the current term string to the sum
-			op_string.push_str(op);
 		}
 
 		// Strip the complete string of the very first operation.
@@ -238,6 +234,6 @@ fn quad_gauss_sums() {
 }
 
 fn main() {
-	// quad_gauss_sums();
-	brute_force();
+	quad_gauss_sums();
+	// brute_force();
 }

@@ -1,8 +1,28 @@
 import math
+from collections import defaultdict
+from colorama import Fore, Style
 from sympy import legendre_symbol
 
 # The number up to which we check for primes
-UPPER = 100
+UPPER = 1000
+
+
+# Checks if a number is prime
+def is_prime(n: int) -> bool:
+	if n == 1:
+		return False
+	return all(n % i != 0 for i in range(2, int(math.sqrt(n)) + 1))
+
+
+# Checks if a number is prime, skipping checks of even factors and starting at 3
+def is_prime_skip_even_start_at_three(n: int) -> bool:
+	return all(n % i != 0 for i in range(3, int(math.sqrt(n)) + 1, 2))
+
+
+# Checks if a number is a perfect square
+def is_square(n: int) -> bool:
+	return n == math.isqrt(i) ** 2
+
 
 """
 Naively generate a list of primes from 3 to UPPER.
@@ -14,10 +34,10 @@ at theta = pi/4. We get sqrt(2) = i^(7/2) + i^(1/2).
 """
 primes = []
 for num in range(3, UPPER, 2):
-    if all(num % i != 0 for i in range(3, int(math.sqrt(num)) + 1, 2)):
-        # The odd integer is a prime if and only if all numbers from 3
-        # through the square root of the odd integer are not factors
-        primes.append(num)
+	if is_prime_skip_even_start_at_three(num):
+		# The odd integer is a prime if and only if all numbers from 3
+		# through the square root of the odd integer are not factors
+		primes.append(num)
 
 """
 We now loop through our primes. We go about calculating a variant of 
@@ -34,58 +54,72 @@ square root of an odd prime p. This allows the user to validate the
 representation by, for example, directly taking the output of this
 program and putting into Wolfram Alpha.
 """
+legendre_position_counts = defaultdict(lambda: 0)
 for p in primes:
-    """
-    Keep track of the counts of Legendre symbols. Note that zero
-    is not a possible value as we will only be calculating
-    Legendre symbols of some integer k < p and p, where p
-    is an odd prime
-    """
-    legendre_counts = {-1: 0, 1: 0}
+	"""
+	Keep track of the counts of Legendre symbols. Note that zero
+	is not a possible value as we will only be calculating
+	Legendre symbols of some integer k < p and p, where p
+	is an odd prime
+	"""
+	legendre_counts = {-1: 0, 1: 0}
 
-    # Initialize the output string
-    op_string = ""
-    total_coef = (-1) ** ((p - 1) / 2)
-    root_sum = 0
-    root_sum_string = ""
+	# Initialize the output string
+	total_coef = (-1) ** ((p - 1) / 2)
+	root_sum = 0
+	root_sum_string = ""
 
-    # Loop through all integers k < p
-    for k in range(1, p):
-        # Calculate the Legendre symbol
-        coef = legendre_symbol(k, p)
+	# Loop through all integers k < p
+	for k in range(1, p):
+		# Calculate the Legendre symbol
+		coef = legendre_symbol(k, p)
 
-        # Keep track of the Legendre symbol counts
-        legendre_counts[coef] += 1
+		# Keep track of the Legendre symbol counts
+		legendre_counts[coef] += 1
 
-        # Here we deal with the sign of the current term
-        op = "+"
-        if coef == -1:
-            op = "-"
+		legendre_position_counts[k] += coef
 
-        # Initialize the numerator of the fraction to which i
-        # is raised
-        pow_numerator = 4 * k
+		# Here we deal with the sign of the current term
+		op = "+"
+		if coef == -1:
+			op = "-"
 
-        # To account for the possibility of a -1 appearing in
-        # the square root of the prime p in the Gauss sum formula,
-        # we must adjust to numerator of the fraction to which i
-        # is raised accordingly
-        if total_coef == -1:
-            pow_numerator = 4 * k - p
+		# Initialize the numerator of the fraction to which i
+		# is raised
+		pow_numerator = 4 * k
 
-        # Set the denominator of the fraction to which i
-        # is raised
-        pow_denominator = p
+		# To account for the possibility of a -1 appearing in
+		# the square root of the prime p in the Gauss sum formula,
+		# we must adjust to numerator of the fraction to which i
+		# is raised accordingly
+		if total_coef == -1:
+			pow_numerator = 4 * k - p
 
-        # Format the string corresponding to the current term in the sum
-        root_sum_string += f" {op} i^({pow_numerator}/{pow_denominator})"
+		# Set the denominator of the fraction to which i
+		# is raised
+		pow_denominator = p
 
-        # Add the current term string to the sum
-        op_string += op
+		# Format the string corresponding to the current term in the sum
+		# root_sum_string += f" {op} i^({pow_numerator}/{pow_denominator})"
+		root_sum_string += f"{op}"
 
-    # Strip the complete string of the very first operation.
-    # Otherwise, the result will begin with a + or - sign
-    root_sum_string = root_sum_string[3:]
+	# Strip the complete string of the very first operation.
+	# Otherwise, the result will begin with a + or - sign
+	root_sum_string = root_sum_string[3:]
 
-    # Print the result
-    print(f"sqrt({p}) = {root_sum_string}\n")
+	# Print the result
+	# print(f"sqrt({p}) = {root_sum_string}\n")
+	# prnt(f"{root_sum_string}")
+
+legendre_position_counts_pairs = sorted(
+	list(legendre_position_counts.items()), key=lambda pair: pair[1], reverse=True
+)
+
+for i, val in legendre_position_counts_pairs:
+	text = f"{i}: {val}"
+	if is_prime(i):
+		print(Fore.RED + text)
+	elif is_square(i):
+		print(Fore.GREEN + text)
+	else:
+		print(Style.RESET_ALL + text)
