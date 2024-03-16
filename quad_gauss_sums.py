@@ -4,7 +4,7 @@ from colorama import Fore, Style
 from sympy import legendre_symbol
 
 # The number up to which we check for primes
-UPPER = 1000
+UPPER = 7
 
 
 # Checks if a number is prime
@@ -100,26 +100,25 @@ for p in primes:
 		pow_denominator = p
 
 		# Format the string corresponding to the current term in the sum
-		# root_sum_string += f" {op} i^({pow_numerator}/{pow_denominator})"
-		root_sum_string += f"{op}"
+		root_sum_string += f" {op} i^({pow_numerator}/{pow_denominator})"
+		# root_sum_string += f"{op}"
 
 	# Strip the complete string of the very first operation.
 	# Otherwise, the result will begin with a + or - sign
 	root_sum_string = root_sum_string[3:]
 
 	# Print the result
-	# print(f"sqrt({p}) = {root_sum_string}\n")
-	# prnt(f"{root_sum_string}")
+	print(f"sqrt({p}) = {root_sum_string}\n")
 
 legendre_position_counts_pairs = sorted(
 	list(legendre_position_counts.items()), key=lambda pair: pair[1], reverse=True
 )
 
-for i, val in legendre_position_counts_pairs:
-	text = f"{i}: {val}"
-	if is_prime(i):
-		print(Fore.RED + text)
-	elif is_square(i):
-		print(Fore.GREEN + text)
-	else:
-		print(Style.RESET_ALL + text)
+# for i, val in legendre_position_counts_pairs:
+# 	text = f"{i}: {val}"
+# 	if is_prime(i):
+# 		print(Fore.RED + text)
+# 	elif is_square(i):
+# 		print(Fore.GREEN + text)
+# 	else:
+# 		print(Style.RESET_ALL + text)
