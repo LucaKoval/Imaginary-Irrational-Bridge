@@ -1,10 +1,37 @@
+import argparse
 import math
+import sys
 from collections import defaultdict
 from colorama import Fore, Style
 from sympy import legendre_symbol
 
-# The number up to which we check for primes
-UPPER = 7
+parser = argparse.ArgumentParser(
+	description="A bridge from the irrationals to the imaginaries."
+)
+parser.add_argument(
+	"-u",
+	"--upper",
+	type=str,
+	help="We will not map from the square roots of any primes greater than this upper limit.",
+)
+args = parser.parse_args()
+
+upper = args.upper
+if not upper:
+	print(
+		f'Please provide an upper bound using "-u" or "--upper". We will not map from the square roots of any primes greater than this upper limit.'
+	)
+	sys.exit(1)
+
+try:
+	upper = int(upper)
+except:
+	print(f"The upper bound must be an integer greater than three.")
+	sys.exit(1)
+
+if upper < 4:
+	print(f"The upper bound must be an integer greater than three.")
+	sys.exit(1)
 
 
 # Checks if a number is prime
@@ -25,7 +52,7 @@ def is_square(n: int) -> bool:
 
 
 """
-Naively generate a list of primes from 3 to UPPER.
+Naively generate a list of primes from 3 to upper.
 2 is not included because the calculating the Legendre symbol
 of some integer k < p and p, where p is prime, requires p
 to be an *odd* prime. The equation representing the square
@@ -33,7 +60,7 @@ root of two can be be found using Euler's formula evaluated
 at theta = pi/4. We get sqrt(2) = i^(7/2) + i^(1/2).
 """
 primes = []
-for num in range(3, UPPER, 2):
+for num in range(3, upper, 2):
 	if is_prime_skip_even_start_at_three(num):
 		# The odd integer is a prime if and only if all numbers from 3
 		# through the square root of the odd integer are not factors
